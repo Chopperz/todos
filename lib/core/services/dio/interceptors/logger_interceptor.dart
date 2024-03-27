@@ -23,12 +23,8 @@ class LoggerInterceptor extends Interceptor {
     if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
       switch (errorMessage) {
         case "Authentication failed.":
-          final pref = await SharedPreferences.getInstance();
-          if (pref.containsKey("user-token-key")) pref.remove("user-token-key");
-          navigatorKey.currentState!.pushReplacementNamed("/login");
-          break;
+          return handler.next(err);
         case "The authenticated user is not allowed to access the specified API endpoint.":
-          navigatorKey.currentState!.pushReplacementNamed("/login");
           break;
         default:
       }
@@ -38,8 +34,8 @@ class LoggerInterceptor extends Interceptor {
         error: "The user has been deleted or the session is expired",
       ));
     }
-    return handler.next(err);
-    // return super.onError(err, handler);
+
+    return super.onError(err, handler);
   }
 
   @override

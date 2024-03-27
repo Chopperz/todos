@@ -1,0 +1,7 @@
+import 'package:flutter/material.dart';
+
+final GlobalKey<NavigatorState> navigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: "app-global-navigator-key");
+
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>(debugLabel: "app-global-scaffold-messenger-key");

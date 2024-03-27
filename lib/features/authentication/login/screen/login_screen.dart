@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
+import 'package:todos_by_bloc/core/providers/user_bloc/user_bloc.dart';
+import 'package:todos_by_bloc/core/services/services.dart';
 import 'package:todos_by_bloc/core/widgets/src/text_field/text_form_field.dart';
-import 'package:todos_by_bloc/features/authentication/login/cubit/login_cubit.dart';
 import 'package:todos_by_bloc/features/authentication/login/cubit/login_cubit.dart';
 
 part '../widgets/socials_login_widget.dart';
@@ -93,7 +94,17 @@ class _LoginScreenState extends State<LoginScreen> {
             buildWhen: (prev, curr) => prev.status != curr.status,
             listener: (context, state) {
               if (state.status.isSuccess) {
-                Navigator.pushReplacementNamed(context, "/");
+                context
+                  ..read<UserBloc>().add(const FetchUserEvent())
+                  ..back();
+              }
+
+              if (state.status.isError) {
+                DialogService().showMessage(
+                  context,
+                  type: DialogMessageType.ERROR,
+                  message: "Your username or password is incorrect.",
+                );
               }
             },
             builder: (context, state) {
@@ -140,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icon(
                             Icons.person,
                             size: 20,
-                            color: context.theme.primaryColor,
+                            color: context.theme.colorScheme.secondary,
                           ),
                         ),
                         Gap(15),
@@ -152,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icon(
                             Icons.lock,
                             size: 20,
-                            color: context.theme.primaryColor,
+                            color: context.theme.colorScheme.secondary,
                           ),
                           suffixIcon: IconButton(
                             onPressed: () {

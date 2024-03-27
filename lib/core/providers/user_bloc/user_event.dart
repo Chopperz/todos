@@ -1,6 +1,7 @@
 part of 'user_bloc.dart';
 
-sealed class UserEvent with EquatableMixin {
+@immutable
+sealed class UserEvent extends Equatable {
   const UserEvent();
 
   @override

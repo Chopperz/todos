@@ -27,6 +27,9 @@ class DioExceptionX implements Exception {
         }
         errorMessage = 'Unexpected error occurred.';
         break;
+      case DioExceptionType.badCertificate:
+        errorMessage = "User token is expired.";
+        break;
       default:
         errorMessage = 'Something went wrong';
         break;

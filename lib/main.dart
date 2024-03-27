@@ -8,6 +8,7 @@ import 'package:todos_by_bloc/core/providers/providers.dart';
 import 'package:todos_by_bloc/core/services/dio/dio_service.dart';
 
 import 'config/router/router.dart';
+import 'core/constants/app_constants.dart';
 
 late String appDirectoryPath;
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => UserBloc()..add(const FetchUserEvent()),
+          create: (context) => UserBloc(context)..add(const FetchUserEvent()),
           lazy: false,
         ),
         BlocProvider(
@@ -41,16 +42,24 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Todo List',
+        title: 'Todos',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
+            primary: Colors.indigoAccent,
             seedColor: Colors.deepPurple,
+            inversePrimary: Colors.indigoAccent.shade400,
+            secondary: Colors.indigo,
           ),
           useMaterial3: true,
         ),
+        darkTheme: ThemeData.dark(
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.system,
         initialRoute: "/",
         routes: routes,
         navigatorKey: navigatorKey,
+        scaffoldMessengerKey: scaffoldMessengerKey,
       ),
     );
   }

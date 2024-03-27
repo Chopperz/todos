@@ -16,13 +16,15 @@ class LoginCubit extends Cubit<LoginState> {
 
   void onLogin({required String username, required String password}) async {
     emit(state.copyWith(status: NetworkStatus.processing));
-    await repository.userLogIn(username: username, password: password);
-    final res = await repository.getMe();
+    bool isLoggedIn = await repository.userLogIn(username: username, password: password);
 
-    if (res.statusCode == 200 && res.data != null) {
-      emit(state.copyWith(status: NetworkStatus.success));
-    } else {
+    if (!isLoggedIn) {
       emit(state.copyWith(status: NetworkStatus.error));
+      return;
+    } else {
+      emit(state.copyWith(status: NetworkStatus.success));
     }
+
+    emit(state.copyWith(status: NetworkStatus.done));
   }
 }

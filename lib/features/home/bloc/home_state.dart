@@ -1,6 +1,32 @@
 part of 'home_bloc.dart';
 
 @immutable
-sealed class HomeState {}
+final class HomeState extends Equatable {
+  final NetworkStatus status;
+  final List<String> categories;
 
-final class HomeInitial extends HomeState {}
+  const HomeState({
+    this.status = NetworkStatus.init,
+    this.categories = const <String>[],
+  });
+
+  factory HomeState.init() => HomeState(
+        status: NetworkStatus.init,
+      );
+
+  HomeState copyWith({
+    NetworkStatus? status,
+    List<String>? categories,
+  }) {
+    return HomeState(
+      status: status ?? this.status,
+      categories: categories ?? this.categories,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        status,
+        categories,
+      ];
+}

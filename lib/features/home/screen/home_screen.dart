@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:todos_by_bloc/core/constants/home_constants.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
 import 'package:todos_by_bloc/core/providers/user_bloc/user_bloc.dart';
@@ -13,6 +12,7 @@ import 'package:todos_by_bloc/features/home/bloc/home_bloc.dart';
 import '../../favorites/screen/favorites_screen.dart';
 
 import 'home_layout.dart';
+import 'home_loading.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -31,27 +31,7 @@ class HomeScreen extends StatelessWidget {
       },
       builder: (_, UserState state) {
         if (state.authStatus.isInit || state.authStatus.isProcessing) {
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator.adaptive(),
-                  const Gap(20),
-                  Text(
-                    "Authentication Verifying..",
-                    style: GoogleFonts.sixtyfour(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
-            ),
-          );
+          return const HomeInitial();
         }
 
         if (state.authStatus.isError) {
@@ -115,7 +95,6 @@ class __HomeScreenState extends State<_HomeScreen> {
             ),
           ),
         ),
-        const Gap(15),
       ],
       body: IndexedStack(
         key: const Key("app-layout-body"),

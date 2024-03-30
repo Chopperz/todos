@@ -12,7 +12,7 @@ import 'package:todos_by_bloc/core/extensions/src/context.dart';
 import 'package:todos_by_bloc/features/home/bloc/home_bloc.dart';
 
 part '../widgets/home_banner.dart';
-
+part '../widgets/home_categories.dart';
 part '../widgets/home_search.dart';
 
 class HomeLayout extends StatefulWidget {
@@ -28,6 +28,7 @@ class _HomeLayoutState extends State<HomeLayout> {
     context.read<HomeBloc>().add(const FetchCategoriesEvent());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (_, BoxConstraints constraints) {
@@ -46,25 +47,7 @@ class _HomeLayoutState extends State<HomeLayout> {
             child: const HomeBanner(),
           ),
           const Gap(20),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: ["Smartphones", "Fragrances", "Skincare", "Furniture"].map<Widget>((category) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: CircleAvatar(
-                    backgroundColor:
-                        Colors.primaries.elementAt(Random().nextInt(Colors.primaries.length)),
-                    radius: 30,
-                    child: Text(
-                      category.characters.first.toUpperCase(),
-                      style: GoogleFonts.prompt(),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
+          const HomeCategories(),
           const Gap(20),
           Text(
             "Tops",

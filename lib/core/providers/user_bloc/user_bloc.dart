@@ -27,20 +27,32 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
   Future<void> mapUserToState(FetchUserEvent event, Emitter<UserState> emit) async {
     if (state.authStatus.isInit) FlutterNativeSplash.remove();
 
-    emit(state.copyWith(authStatus: NetworkStatus.processing));
+    if (!state.authStatus.isProcessing) emit(state.copyWith(authStatus: NetworkStatus.processing));
 
     final res = await UserRepository().getMe();
 
-    if (res.data["message"] == "Invalid/Expired Token!") {
+    String message = res.data["message"] ?? "";
+
+    if (["Token", "Expired"].any(message.contains)) {
+      if (state.user != null && context.localStorage.getBool("remember-me-key") == true) {
+        print("Refresh Token =============> ${DateTime.now().toIso8601String()}");
+        final isSuccess = await UserRepository().userLogIn(
+          username: state.user?.username ?? "",
+          password: state.user?.password ?? "",
+        );
+
+        if (isSuccess) {
+          return add(event);
+        }
+      }
       emit(state.copyWith(authStatus: NetworkStatus.error));
     } else {
       emit(state.copyWith(
         user: UserModel.fromJson(res.data),
         status: NetworkStatus.success,
       ));
+      emit(state.copyWith(authStatus: NetworkStatus.done));
     }
-
-    emit(state.copyWith(authStatus: NetworkStatus.done));
   }
 
   @override

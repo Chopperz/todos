@@ -83,7 +83,7 @@ class _Dialog {
       enableDrag: false,
       builder: (BuildContext context) {
         return BlocProvider(
-          create: (context) => LoginCubit(),
+          create: (context) => LoginCubit(context),
           child: const LoginScreen(),
         );
       },

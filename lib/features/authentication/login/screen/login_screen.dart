@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -173,23 +174,54 @@ class _LoginScreenState extends State<LoginScreen> {
                             icon: Icon(_isObscureText ? Icons.visibility : Icons.visibility_off),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              padding:
-                                  MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
-                            ),
-                            child: Text(
-                              "Forgot Password?",
-                              style: GoogleFonts.roboto(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  BlocSelector<LoginCubit, LoginState, bool>(
+                                    selector: (state) => state.isRememberMe,
+                                    builder: (_, value) => SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Checkbox.adaptive(
+                                        value: value,
+                                        onChanged: (v) {
+                                          context.read<LoginCubit>().onChangedRememberMe();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  const Gap(5),
+                                  Text(
+                                    "Remember Me",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey.shade200,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
+                            TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                padding:
+                                    MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
+                              ),
+                              child: Text(
+                                "Forgot Password?",
+                                style: GoogleFonts.roboto(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

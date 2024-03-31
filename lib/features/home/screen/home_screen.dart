@@ -1,27 +1,57 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:todos_by_bloc/core/constants/home_constants.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
 import 'package:todos_by_bloc/core/providers/user_bloc/user_bloc.dart';
+import 'package:todos_by_bloc/core/services/services.dart';
 import 'package:todos_by_bloc/core/widgets/src/app_scaffold.dart';
+import 'package:todos_by_bloc/features/home/bloc/home_bloc.dart';
 
 import '../../favorites/screen/favorites_screen.dart';
-import '../../settings/screen/settings_screen.dart';
 
-part 'home_layout.dart';
+import 'home_layout.dart';
+import 'home_loading.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   static final GlobalKey<State<BottomNavigationBar>> bottomNavigationBarKey =
       GlobalKey(debugLabel: "home-bottom-navigation-bar-key");
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    return BlocConsumer<UserBloc, UserState>(
+      listenWhen: (prev, curr) => prev.authStatus != curr.authStatus,
+      listener: (BuildContext context, UserState state) {
+        if (state.authStatus.isError) {
+          DialogService.of(context).showLogin();
+        }
+      },
+      builder: (_, UserState state) {
+        if (state.authStatus.isInit || state.authStatus.isProcessing) {
+          return const HomeInitial();
+        }
+
+        if (state.authStatus.isError) {
+          return const SizedBox.shrink();
+        }
+
+        return _HomeScreen(key: ValueKey(state.user?.username));
+      },
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreen extends StatefulWidget {
+  const _HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<_HomeScreen> createState() => __HomeScreenState();
+}
+
+class __HomeScreenState extends State<_HomeScreen> {
   int currentTabIndex = 0;
 
   @override
@@ -49,18 +79,31 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.shopping_basket),
           ),
         ),
-        IconButton(
-          onPressed: () async {
-            await Navigator.pushNamed(context, "/settings");
-          },
-          icon: const Icon(Icons.settings),
+        BlocSelector<UserBloc, UserState, String>(
+          selector: (state) => state.user?.image ?? "",
+          builder: (_, imageUrl) => Visibility(
+            visible: imageUrl.isNotEmpty,
+            child: InkWell(
+              onTap: () => Navigator.of(context).pushNamed("/settings"),
+              child: CircleAvatar(
+                radius: 20,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CachedNetworkImage(imageUrl: imageUrl),
+                ),
+              ),
+            ),
+          ),
         ),
       ],
       body: IndexedStack(
         key: const Key("app-layout-body"),
         index: currentTabIndex,
         children: [
-          const HomeLayout(),
+          BlocProvider(
+            create: (context) => HomeBloc(),
+            child: const HomeLayout(),
+          ),
           const FavoritesScreen(),
         ],
       ),
@@ -70,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (int i) => setState(() {
           currentTabIndex = i;
         }),
+        selectedItemColor: context.theme.colorScheme.primary,
         items: menuList.map((item) => item).toList(),
       ),
     );

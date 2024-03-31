@@ -9,13 +9,13 @@ final class UserRepository {
 
   factory UserRepository() => _instance;
 
-  Future<void> userLogIn({required String username, required String password}) async {
+  Future<bool> userLogIn({required String username, required String password}) async {
     final res = await DioService().post(
       '/auth/login',
       data: {
         'username': username,
         'password': password,
-        'expiresInMins': 10,
+        'expiresInMins': 60,
       },
       options: Options(
         headers: {
@@ -26,15 +26,16 @@ final class UserRepository {
         },
       ),
     );
-    final pref = await SharedPreferences.getInstance();
-    await pref.setString("user-token-key", res.data["token"]);
-    await DioService.resetStatic();
+
+    if (res.statusCode == 200 && res.data["token"] != null) {
+      final pref = await SharedPreferences.getInstance();
+      await pref.setString("user-token-key", res.data["token"]);
+      await DioService.resetStatic();
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  Future<Response> getMe() async {
-    final res = await DioService().get('/auth/me');
-
-    print("Res: ${res.data}, ${res.statusCode}");
-    return res;
-  }
+  Future<Response> getMe() async => await DioService().get('/auth/me');
 }

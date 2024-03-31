@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todos_by_bloc/config/router/router.dart';
-import 'package:todos_by_bloc/core/extensions/extensions.dart';
-import 'package:todos_by_bloc/core/repositories/repositories.dart';
+import 'package:todos_by_bloc/core/constants/app_constants.dart';
 import 'package:todos_by_bloc/main.dart';
 
 export 'package:dio/dio.dart';
@@ -53,7 +51,7 @@ class DioService {
       receiveTimeout: Endpoints.receiveTimeout,
       responseType: ResponseType.json,
       headers: {
-        if (_userToken.isNotEmptyOrNull) "Authorization": "Bearer $_userToken",
+        "Authorization": "Bearer $_userToken",
       },
     );
 
@@ -93,8 +91,11 @@ class DioService {
     try {
       return await future;
     } on DioException catch (err) {
-      DioExceptionX.fromDioError(err);
-      return err.response ?? Response(requestOptions: err.requestOptions);
+      final exception = DioExceptionX.fromDioError(err);
+      return err.response ??
+          Response(
+            requestOptions: err.requestOptions.copyWith(data: {"message": exception.errorMessage}),
+          );
     } catch (_) {
       rethrow;
     }
@@ -113,14 +114,17 @@ class DioService {
             {
               "Accept": "application/json",
             },
-        // validateStatus: (status) => status! < 500,
+        validateStatus: (status) => status! < 500,
       ),
     );
     try {
       return await future;
     } on DioException catch (err) {
-      DioExceptionX.fromDioError(err);
-      return err.response!;
+      final exception = DioExceptionX.fromDioError(err);
+      return err.response ??
+          Response(
+            requestOptions: err.requestOptions.copyWith(data: {"message": exception.errorMessage}),
+          );
     } catch (_) {
       rethrow;
     }

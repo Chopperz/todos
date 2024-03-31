@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
 
@@ -38,7 +39,10 @@ class AppScaffold extends StatelessWidget {
           ),
         ),
         centerTitle: centerTitle,
-        actions: actions,
+        actions: (actions != null && actions!.isNotEmpty) ? [
+          ...actions!,
+          const Gap(15),
+        ] : null,
       ),
       body: body,
       bottomNavigationBar: bottomNavigationBar,

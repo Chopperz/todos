@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
+import 'package:todos_by_bloc/core/providers/user_bloc/user_bloc.dart';
+import 'package:todos_by_bloc/core/services/services.dart';
 import 'package:todos_by_bloc/core/widgets/src/text_field/text_form_field.dart';
-import 'package:todos_by_bloc/features/authentication/login/cubit/login_cubit.dart';
 import 'package:todos_by_bloc/features/authentication/login/cubit/login_cubit.dart';
 
 part '../widgets/socials_login_widget.dart';
@@ -93,7 +95,17 @@ class _LoginScreenState extends State<LoginScreen> {
             buildWhen: (prev, curr) => prev.status != curr.status,
             listener: (context, state) {
               if (state.status.isSuccess) {
-                Navigator.pushReplacementNamed(context, "/");
+                context
+                  ..read<UserBloc>().add(const FetchUserEvent())
+                  ..back();
+              }
+
+              if (state.status.isError) {
+                DialogService().showMessage(
+                  context,
+                  type: DialogMessageType.ERROR,
+                  message: "Your username or password is incorrect.",
+                );
               }
             },
             builder: (context, state) {
@@ -140,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icon(
                             Icons.person,
                             size: 20,
-                            color: context.theme.primaryColor,
+                            color: context.theme.colorScheme.secondary,
                           ),
                         ),
                         Gap(15),
@@ -152,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icon(
                             Icons.lock,
                             size: 20,
-                            color: context.theme.primaryColor,
+                            color: context.theme.colorScheme.secondary,
                           ),
                           suffixIcon: IconButton(
                             onPressed: () {
@@ -162,23 +174,54 @@ class _LoginScreenState extends State<LoginScreen> {
                             icon: Icon(_isObscureText ? Icons.visibility : Icons.visibility_off),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              padding:
-                                  MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
-                            ),
-                            child: Text(
-                              "Forgot Password?",
-                              style: GoogleFonts.roboto(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  BlocSelector<LoginCubit, LoginState, bool>(
+                                    selector: (state) => state.isRememberMe,
+                                    builder: (_, value) => SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Checkbox.adaptive(
+                                        value: value,
+                                        onChanged: (v) {
+                                          context.read<LoginCubit>().onChangedRememberMe();
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  const Gap(5),
+                                  Text(
+                                    "Remember Me",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey.shade200,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
+                            TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                padding:
+                                    MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
+                              ),
+                              child: Text(
+                                "Forgot Password?",
+                                style: GoogleFonts.roboto(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

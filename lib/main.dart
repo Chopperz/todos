@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
             inversePrimary: Colors.indigoAccent.shade400,
             secondary: Colors.indigo,
           ),
+          scaffoldBackgroundColor: Colors.grey.shade100,
           useMaterial3: true,
         ),
         darkTheme: ThemeData.dark(

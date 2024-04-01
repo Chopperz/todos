@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todos_by_bloc/core/repositories/repositories.dart';
 import 'package:todos_by_bloc/core/services/dio/dio_service.dart';
 
 final class UserRepository {

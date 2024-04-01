@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 
 import '../../favorite_hive.dart';
 

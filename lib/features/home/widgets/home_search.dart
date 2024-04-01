@@ -23,7 +23,8 @@ class HomeSearch extends StatelessWidget {
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade200),
+                borderSide: BorderSide(color: Colors.grey.shade100),
+                borderRadius: BorderRadius.circular(8),
               ),
               prefixIcon: Icon(Icons.search),
               hintText: "Search for Shops",
@@ -32,10 +33,10 @@ class HomeSearch extends StatelessWidget {
                 fontWeight: FontWeight.normal,
               ),
               filled: true,
-              fillColor: Colors.grey.shade100,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+              fillColor: Colors.white,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12).copyWith(top: 10),
             ),
-            cursorHeight: 20,
+            // cursorHeight: 20,
             onChanged: onSearch,
           ),
         ),

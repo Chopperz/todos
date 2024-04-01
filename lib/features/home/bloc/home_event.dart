@@ -11,3 +11,7 @@ sealed class HomeEvent extends Equatable {
 final class FetchCategoriesEvent extends HomeEvent {
   const FetchCategoriesEvent();
 }
+
+final class FetchTopSellingEvent extends HomeEvent {
+  const FetchTopSellingEvent();
+}

@@ -6,8 +6,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todos_by_bloc/core/constants/app_constants.dart';
-import 'package:todos_by_bloc/core/repositories/src/auth_repository.dart';
-import 'package:todos_by_bloc/main.dart';
 
 export 'package:dio/dio.dart';
 
@@ -185,14 +183,7 @@ class DioService {
 }
 
 extension DioResponseExtension on Response {
-  bool get isSuccess {
-    if (this.data != null) {
-      return this.data["status"] == true &&
-          this.data["code"] == "0000" &&
-          this.data["message"] == "Success";
-    }
-    return false;
-  }
+  bool get isSuccess => this.statusCode == 200 && this.data != null;
 
   dynamic get objectValue => this.data["objectValue"];
 }

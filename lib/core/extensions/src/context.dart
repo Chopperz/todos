@@ -15,4 +15,7 @@ extension BuildContextExtensions<T> on BuildContext {
       Navigator.of(this).pushNamed(routeName, arguments: arguments);
 
   void back({T? result}) => Navigator.pop(this, result);
+
+  void backUntil({required bool Function(Route<dynamic>) predicate}) =>
+      Navigator.popUntil(this, predicate);
 }

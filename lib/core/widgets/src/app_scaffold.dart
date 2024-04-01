@@ -43,6 +43,7 @@ class AppScaffold extends StatelessWidget {
           ...actions!,
           const Gap(15),
         ] : null,
+        surfaceTintColor: appBarBackgroundColor ?? context.theme.colorScheme.inversePrimary,
       ),
       body: body,
       bottomNavigationBar: bottomNavigationBar,

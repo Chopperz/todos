@@ -8,6 +8,11 @@ class UserState extends Equatable {
     this.user,
   });
 
+  factory UserState.logout() => UserState(
+    authStatus: NetworkStatus.error,
+    status: NetworkStatus.init,
+  );
+
   final NetworkStatus authStatus;
   final NetworkStatus status;
   final UserModel? user;

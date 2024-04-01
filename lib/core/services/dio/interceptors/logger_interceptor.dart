@@ -1,6 +1,10 @@
 part of '../dio_service.dart';
 
 class LoggerInterceptor extends Interceptor {
+  LoggerInterceptor({required this.dio});
+
+  final Dio dio;
+
   Logger logger = Logger(
     printer: PrettyPrinter(
       methodCount: 0,
@@ -23,6 +27,14 @@ class LoggerInterceptor extends Interceptor {
     if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
       switch (errorMessage) {
         case "Authentication failed.":
+          if (sharedPreferences.getBool(IS_REMEMBER_ME_KEY) == true) {
+            print("Refresh Token =============> ${DateTime.now().toIso8601String()}");
+            final newAccessToken = await AuthRepository().refreshToken();
+            if (newAccessToken.isNotEmpty) {
+              err.requestOptions.headers["Authorization"] = "Bearer $newAccessToken";
+              return handler.resolve(await dio.fetch(err.requestOptions));
+            }
+          }
           return handler.next(err);
         case "The authenticated user is not allowed to access the specified API endpoint.":
           break;

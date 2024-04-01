@@ -11,7 +11,7 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit(this.context) : super(const LoginState());
 
   final BuildContext context;
-  final UserRepository repository = UserRepository();
+  final AuthRepository repository = AuthRepository();
 
   void onPasswordChanged(String password) {
     //

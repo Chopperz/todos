@@ -10,3 +10,6 @@ final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
 late SharedPreferences sharedPreferences;
 
 late String appDirectoryPath;
+
+const String USER_TOKEN_KEY = "user-token-key";
+const String IS_REMEMBER_ME_KEY = "remember-me-key";

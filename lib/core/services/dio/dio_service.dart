@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todos_by_bloc/core/constants/app_constants.dart';
+import 'package:todos_by_bloc/core/repositories/src/auth_repository.dart';
 import 'package:todos_by_bloc/main.dart';
 
 export 'package:dio/dio.dart';
@@ -57,10 +58,12 @@ class DioService {
 
     client = Dio(
       baseOptions,
-    )..interceptors.addAll([
-        DioCacheInterceptor(options: options),
-        LoggerInterceptor(),
-      ]);
+    );
+
+    client.interceptors.addAll([
+      DioCacheInterceptor(options: options),
+      LoggerInterceptor(dio: client),
+    ]);
   }
 
   factory DioService() => DioService._();

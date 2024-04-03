@@ -28,11 +28,13 @@ dependencies:
   http: any
 
   # Service
-  easy_localization: ^3.0.5
+  flutter_localizations:
+    sdk: flutter
   equatable: ^2.0.5
   logger: ^2.2.0
   package_info_plus: ^6.0.0
   path_provider: ^2.1.2
+  intl: ^0.18.1
   rxdart: ^0.27.7
 
   # DB or Local Storage
@@ -87,6 +89,7 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
+  generate: true
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:

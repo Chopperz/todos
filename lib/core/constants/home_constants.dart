@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 
-const menuList = <BottomNavigationBarItem>[
-  BottomNavigationBarItem(
+class HomeBottomBarProps {
+  final String label;
+  final Widget icon;
+
+  const HomeBottomBarProps({
+    required this.label,
+    required this.icon,
+  });
+}
+
+const menuList = <HomeBottomBarProps>[
+  HomeBottomBarProps(
     label: "Home",
     icon: Icon(Icons.home),
   ),
-  BottomNavigationBarItem(
+  HomeBottomBarProps(
     label: "Favorites",
     icon: Icon(Icons.favorite),
   ),

@@ -113,7 +113,14 @@ class __HomeScreenState extends State<_HomeScreen> {
           currentTabIndex = i;
         }),
         selectedItemColor: context.theme.colorScheme.primary,
-        items: menuList.map((item) => item).toList(),
+        items: menuList
+            .map<BottomNavigationBarItem>(
+              (item) => BottomNavigationBarItem(
+                label: item.label == "Home" ? context.localize?.home : context.localize?.favorite,
+                icon: item.icon,
+              ),
+            )
+            .toList(),
       ),
     );
   }

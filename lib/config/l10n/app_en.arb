@@ -1,0 +1,19 @@
+{
+    "home": "Home",
+    "@home": {
+        "description": "This is first menu name in initial-app screen"
+    },
+    "favorite": "Favorite",
+    "@favorite": {
+        "description": "This is second menu name in initial-app screen"
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "This is menu for settings the app for implement some things"
+    },
+    "mobile": "Mobile",
+    "fashion": "Fashion",
+    "furniture": "Furniture",
+    "motorcycle": "Motorcycle",
+    "more": "More"
+}

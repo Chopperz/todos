@@ -38,7 +38,7 @@ final class AuthRepository {
   }
 
   Future<String> refreshToken() async {
-    final res = await DioService().post(
+    final  Response<dynamic> res = await DioService().post(
       "/auth/refresh",
       data: {
         "expiresInMins": 60,
@@ -48,7 +48,7 @@ final class AuthRepository {
       ),
     );
 
-    return res.data["token"] ?? "";
+    return res.data == null ? "" : res.data["token"];
   }
 
   Future<void> userLogout() async {

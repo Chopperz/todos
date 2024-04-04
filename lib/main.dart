@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todos_by_bloc/core/providers/providers.dart';
 import 'package:todos_by_bloc/core/services/dio/dio_service.dart';
+import 'package:todos_by_bloc/theme/app_theme.dart';
 
 import 'config/router/router.dart';
 import 'core/constants/app_constants.dart';
@@ -31,7 +32,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => UserBloc(context)..add(const FetchUserEvent()),
+          create: (context) =>
+          UserBloc(context)
+            ..add(const FetchUserEvent()),
           lazy: false,
         ),
         BlocProvider(
@@ -41,26 +44,20 @@ class MyApp extends StatelessWidget {
           create: (context) => SettingsCubit(),
         ),
       ],
-      child: MaterialApp(
-        title: 'Todos',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            primary: Colors.indigoAccent,
-            seedColor: Colors.deepPurple,
-            inversePrimary: Colors.indigoAccent.shade400,
-            secondary: Colors.indigo,
-          ),
-          scaffoldBackgroundColor: Colors.grey.shade100,
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData.dark(
-          useMaterial3: true,
-        ),
-        themeMode: ThemeMode.system,
-        initialRoute: "/",
-        routes: routes,
-        navigatorKey: navigatorKey,
-        scaffoldMessengerKey: scaffoldMessengerKey,
+      child: BlocSelector<SettingsCubit, SettingsState, ThemeMode>(
+        selector: (state) => state.themeMode,
+        builder: (context, themeMode) {
+          return MaterialApp(
+            title: 'Todos',
+            theme: AppTheme.instance.light,
+            darkTheme: AppTheme.instance.dark,
+            themeMode: themeMode,
+            initialRoute: "/",
+            routes: routes,
+            navigatorKey: navigatorKey,
+            scaffoldMessengerKey: scaffoldMessengerKey,
+          );
+        },
       ),
     );
   }

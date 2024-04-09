@@ -37,13 +37,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               width: double.infinity,
               height: 150,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.theme.cardColor,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, -1),
-                    color: Colors.grey.shade200,
-                    spreadRadius: 5,
+                    color: context.theme.shadowColor.withOpacity(.2),
+                    spreadRadius: 1,
                     blurRadius: 10,
                   ),
                 ],
@@ -85,7 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               width: 25,
                               height: 25,
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: context.theme.cardColor,
                                 shape: BoxShape.circle,
                                 border: Border.all(color: Colors.grey.shade200, width: 3),
                               ),
@@ -128,13 +128,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Expanded(
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: context.theme.cardColor,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
                       offset: Offset(0, -1),
-                      color: Colors.grey.shade200,
-                      spreadRadius: 5,
+                      color: context.theme.shadowColor.withOpacity(.2),
+                      spreadRadius: 1,
                       blurRadius: 10,
                     ),
                   ],
@@ -150,7 +150,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       itemBuilder: (_, index) {
                         final fontStyle = AppTheme.fonts.fontL(
                           props: AppFontStyleProps(
-                            color: Colors.grey.shade800,
+                            color: context.isDarkMode ? Colors.grey.shade200 : Colors.grey.shade800,
                             fontWeight: FontWeight.w500,
                           ),
                         );
@@ -164,10 +164,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   style: fontStyle,
                                 ),
                                 contentPadding: EdgeInsets.zero,
-                                trailing: Switch(
-                                  value: false,
-                                  onChanged: (v) {
-                                    //
+                                trailing: BlocSelector<SettingsCubit, SettingsState, ThemeMode>(
+                                  selector: (state) => state.themeMode,
+                                  builder: (_, theme) {
+                                    bool isDarkMode = theme == ThemeMode.dark;
+                                    return Switch(
+                                      value: isDarkMode,
+                                      onChanged: (__) {
+                                        _.read<SettingsCubit>().onChangedThemeMode(
+                                              themeMode:
+                                                  isDarkMode ? ThemeMode.light : ThemeMode.dark,
+                                            );
+                                      },
+                                    );
                                   },
                                 ),
                               );

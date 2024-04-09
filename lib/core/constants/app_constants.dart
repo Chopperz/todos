@@ -11,5 +11,5 @@ late SharedPreferences sharedPreferences;
 
 late String appDirectoryPath;
 
-const String USER_TOKEN_KEY = "user-token-key";
-const String IS_REMEMBER_ME_KEY = "remember-me-key";
+const String USER_TOKEN_KEY = "app-user-token-key";
+const String REFRESH_TOKEN_KEY = "app-refresh-user-token-key";

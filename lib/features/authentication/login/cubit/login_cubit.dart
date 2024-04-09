@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todos_by_bloc/core/constants/app_constants.dart';
 import 'package:todos_by_bloc/core/enums/enums.dart';
-import 'package:todos_by_bloc/core/extensions/extensions.dart';
 import 'package:todos_by_bloc/core/repositories/repositories.dart';
 
 part 'login_state.dart';
@@ -30,7 +30,8 @@ class LoginCubit extends Cubit<LoginState> {
       return;
     } else {
       if (state.isRememberMe) {
-        context.localStorage.setBool("remember-me-key", true);
+        String refreshUserToken = await repository.refreshToken();
+        sharedPreferences.setString(REFRESH_TOKEN_KEY, refreshUserToken);
       }
       emit(state.copyWith(status: NetworkStatus.success));
     }

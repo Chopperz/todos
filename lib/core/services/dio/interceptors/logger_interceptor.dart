@@ -27,14 +27,18 @@ class LoggerInterceptor extends Interceptor {
     if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
       switch (errorMessage) {
         case "Authentication failed.":
-          if (sharedPreferences.getBool(IS_REMEMBER_ME_KEY) == true) {
-            print("Refresh Token =============> ${DateTime.now().toIso8601String()}");
-            final newAccessToken = await AuthRepository().refreshToken();
-            if (newAccessToken.isNotEmpty) {
-              err.requestOptions.headers["Authorization"] = "Bearer $newAccessToken";
-              return handler.resolve(await dio.fetch(err.requestOptions));
-            }
-          }
+          final refreshAccessToken = sharedPreferences.getString(REFRESH_TOKEN_KEY) ?? "";
+          // if (refreshAccessToken.isNotEmpty) {
+          //   print("Refresh Token =============> ${DateTime.now().toIso8601String()}");
+          //   final newAccessTokenForReplace =
+          //   await AuthRepository().refreshToken(userAccessToken: refreshAccessToken);
+          //   await sharedPreferences
+          //     ..setString(USER_TOKEN_KEY, refreshAccessToken)
+          //     ..setString(REFRESH_TOKEN_KEY, newAccessTokenForReplace);
+          //   err.requestOptions.headers["Authorization"] = "Bearer $refreshAccessToken";
+          //   return handler.resolve(await dio.fetch(err.requestOptions));
+          // }
+          await AuthRepository().userLogout();
           return handler.next(err);
         case "The authenticated user is not allowed to access the specified API endpoint.":
           break;

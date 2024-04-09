@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,11 +13,15 @@ import 'package:todos_by_bloc/core/providers/providers.dart';
 import 'package:todos_by_bloc/core/services/dio/dio_service.dart';
 import 'package:todos_by_bloc/theme/app_theme.dart';
 
+import 'config/firebase/firebase_options.dart';
 import 'config/router/router.dart';
 import 'core/constants/app_constants.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final dir = await getTemporaryDirectory();
   appDirectoryPath = dir.path;

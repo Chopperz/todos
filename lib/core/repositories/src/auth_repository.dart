@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todos_by_bloc/core/constants/app_constants.dart';
+import 'package:todos_by_bloc/core/extensions/extensions.dart';
 import 'package:todos_by_bloc/core/services/services.dart';
 
 final class AuthRepository {
@@ -37,7 +38,7 @@ final class AuthRepository {
     }
   }
 
-  Future<String> refreshToken() async {
+  Future<String> refreshToken({String? userAccessToken}) async {
     final  Response<dynamic> res = await DioService().post(
       "/auth/refresh",
       data: {
@@ -45,6 +46,9 @@ final class AuthRepository {
       },
       options: Options(
         contentType: "application/json",
+        headers: {
+          if (userAccessToken.isNotEmptyOrNull) "Authorization": "Bearer $userAccessToken",
+        }
       ),
     );
 
@@ -55,7 +59,7 @@ final class AuthRepository {
     final pref = await SharedPreferences.getInstance();
     await pref
       ..remove(USER_TOKEN_KEY)
-      ..remove(IS_REMEMBER_ME_KEY);
+      ..remove(REFRESH_TOKEN_KEY);
     await DioService.resetStatic();
   }
 }

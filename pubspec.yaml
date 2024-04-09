@@ -30,6 +30,8 @@ dependencies:
   # Service
   flutter_localizations:
     sdk: flutter
+  firebase_auth: ^4.19.0
+  firebase_core: ^2.28.0
   equatable: ^2.0.5
   logger: ^2.2.0
   package_info_plus: ^6.0.0

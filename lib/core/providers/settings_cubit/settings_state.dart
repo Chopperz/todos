@@ -1,6 +1,20 @@
 part of 'settings_cubit.dart';
 
-@immutable
-sealed class SettingsState {}
+class SettingsState extends Equatable {
+  const SettingsState({
+    this.themeMode = ThemeMode.system,
+  });
 
-final class SettingsInitial extends SettingsState {}
+  final ThemeMode themeMode;
+
+  SettingsState copyWith({ThemeMode? themeMode}) {
+    return SettingsState(
+      themeMode: themeMode ?? this.themeMode,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    themeMode,
+  ];
+}

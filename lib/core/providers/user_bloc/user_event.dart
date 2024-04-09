@@ -11,3 +11,7 @@ sealed class UserEvent extends Equatable {
 final class FetchUserEvent extends UserEvent {
   const FetchUserEvent();
 }
+
+final class UserLogoutEvent extends UserEvent {
+  const UserLogoutEvent();
+}

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1066097970733",
+    "project_id": "ecommerce-todos-app-ca7b7",
+    "storage_bucket": "ecommerce-todos-app-ca7b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066097970733:android:760f2a7f130c15349c32a4",
+        "android_client_info": {
+          "package_name": "com.example.todos_by_bloc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066097970733-n5hspk9lblera7hsc003kau1krdr86u5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7pZwsSWb0FT1AVYIw1UKJ_cpq2l6FU6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066097970733-n5hspk9lblera7hsc003kau1krdr86u5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1066097970733-li6e723sh9v1ulv86aiu5qqcjipv4gc7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.todosByBloc"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

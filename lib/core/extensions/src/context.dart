@@ -8,7 +8,7 @@ extension BuildContextExtensions<T> on BuildContext {
 
   ThemeData get theme => Theme.of(this);
 
-  SharedPreferences get localStorage => sharedPreferences;
+  bool get isDarkMode => theme.brightness == Brightness.dark;
 
   AppLocalizations? get localize => AppLocalizations.of(this);
 

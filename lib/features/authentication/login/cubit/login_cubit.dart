@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todos_by_bloc/core/constants/app_constants.dart';
 import 'package:todos_by_bloc/core/enums/enums.dart';
 import 'package:todos_by_bloc/core/repositories/repositories.dart';
 
@@ -17,23 +17,26 @@ class LoginCubit extends Cubit<LoginState> {
     //
   }
 
-  void onChangedRememberMe() {
-    emit(state.copyWith(isRememberMe: !state.isRememberMe));
-  }
-
   void onLogin({required String username, required String password}) async {
     emit(state.copyWith(status: NetworkStatus.processing));
-    bool isLoggedIn = await repository.userLogIn(username: username, password: password);
 
-    if (!isLoggedIn) {
-      emit(state.copyWith(status: NetworkStatus.error));
-      return;
-    } else {
-      if (state.isRememberMe) {
-        String refreshUserToken = await repository.refreshToken();
-        sharedPreferences.setString(REFRESH_TOKEN_KEY, refreshUserToken);
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: username, password: password);
+
+      if (userCredential.user == null) {
+        emit(state.copyWith(status: NetworkStatus.error));
+      } else {
+        await repository.userLogIn();
+        emit(state.copyWith(status: NetworkStatus.success));
       }
-      emit(state.copyWith(status: NetworkStatus.success));
+    } on FirebaseAuthException catch (fireErr) {
+      print(fireErr.message);
+      print(fireErr.code);
+      emit(state.copyWith(status: NetworkStatus.error));
+      rethrow;
+    } catch (err) {
+      throw err;
     }
 
     emit(state.copyWith(status: NetworkStatus.done));

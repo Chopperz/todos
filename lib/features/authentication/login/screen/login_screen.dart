@@ -9,6 +9,8 @@ import 'package:todos_by_bloc/core/services/services.dart';
 import 'package:todos_by_bloc/core/widgets/src/text_field/text_form_field.dart';
 import 'package:todos_by_bloc/features/authentication/login/cubit/login_cubit.dart';
 
+export 'package:todos_by_bloc/features/authentication/login/cubit/login_cubit.dart';
+
 part '../widgets/socials_login_widget.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -175,37 +177,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Expanded(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  BlocSelector<LoginCubit, LoginState, bool>(
-                                    selector: (state) => state.isRememberMe,
-                                    builder: (_, value) => SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: Checkbox.adaptive(
-                                        value: value,
-                                        onChanged: (v) {
-                                          context.read<LoginCubit>().onChangedRememberMe();
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  const Gap(5),
-                                  Text(
-                                    "Remember Me",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey.shade200,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                             TextButton(
                               onPressed: () {},
                               style: ButtonStyle(
@@ -227,38 +200,42 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const Gap(30),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_disabledButton) return;
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_disabledButton) return;
 
-                      context
-                          .read<LoginCubit>()
-                          .onLogin(username: usernameCtrl.text, password: passwordCtrl.text);
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith((_) {
-                        if (_disabledButton) {
-                          return Colors.transparent;
-                        }
-                        return Colors.green;
-                      }),
-                      fixedSize: MaterialStatePropertyAll<Size>(
-                        Size(150, 45),
-                      ),
-                      shape: MaterialStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          context
+                              .read<LoginCubit>()
+                              .onLogin(username: usernameCtrl.text, password: passwordCtrl.text);
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith((_) {
+                            if (_disabledButton) {
+                              return Colors.transparent;
+                            }
+                            return Colors.green;
+                          }),
+                          fixedSize: MaterialStatePropertyAll<Size>(
+                            const Size.fromHeight(45),
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                        child: Text(
+                          "Login",
+                          style: GoogleFonts.notoSans(
+                            color: Colors.grey.shade200,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    child: Text(
-                      "Login",
-                      style: GoogleFonts.notoSans(
-                        color: Colors.grey.shade200,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               );

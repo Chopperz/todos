@@ -4,11 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:todos_by_bloc/config/firebase/app_firebase.dart';
 import 'package:todos_by_bloc/core/constants/app_constants.dart';
 import 'package:todos_by_bloc/core/enums/enums.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
 import 'package:todos_by_bloc/core/models/src/user/user_model.dart';
-import 'package:todos_by_bloc/core/providers/providers.dart';
 import 'package:todos_by_bloc/core/repositories/repositories.dart';
 
 part 'user_event.dart';
@@ -47,6 +47,18 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     if (state.authStatus.isInit) FlutterNativeSplash.remove();
 
     if (!state.authStatus.isProcessing) emit(state.copyWith(authStatus: NetworkStatus.processing));
+
+    final user = AppFirebase.instance.user;
+
+    if (user == null) {
+      emit(state.copyWith(authStatus: NetworkStatus.error));
+      return;
+    }
+
+    final userData = await AppFirebase.instance.database().child('users');
+    final DataSnapshot info = await userData.child(user.uid).get();
+
+    print("User-Database: ${info.value}");
 
     final res = await userRepository.getMe();
 

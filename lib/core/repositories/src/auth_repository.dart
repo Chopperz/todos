@@ -10,12 +10,12 @@ final class AuthRepository {
 
   factory AuthRepository() => _instance;
 
-  Future<bool> userLogIn({required String username, required String password}) async {
+  Future<bool> userLogIn() async {
     final res = await DioService().post(
       '/auth/login',
       data: {
-        'username': username,
-        'password': password,
+        'username': "kminchelle",
+        'password': "0lelplR",
         'expiresInMins': 60,
       },
       options: Options(
@@ -39,17 +39,14 @@ final class AuthRepository {
   }
 
   Future<String> refreshToken({String? userAccessToken}) async {
-    final  Response<dynamic> res = await DioService().post(
+    final Response<dynamic> res = await DioService().post(
       "/auth/refresh",
       data: {
         "expiresInMins": 60,
       },
-      options: Options(
-        contentType: "application/json",
-        headers: {
-          if (userAccessToken.isNotEmptyOrNull) "Authorization": "Bearer $userAccessToken",
-        }
-      ),
+      options: Options(contentType: "application/json", headers: {
+        if (userAccessToken.isNotEmptyOrNull) "Authorization": "Bearer $userAccessToken",
+      }),
     );
 
     return res.data == null ? "" : res.data["token"];
@@ -57,9 +54,7 @@ final class AuthRepository {
 
   Future<void> userLogout() async {
     final pref = await SharedPreferences.getInstance();
-    await pref
-      ..remove(USER_TOKEN_KEY)
-      ..remove(REFRESH_TOKEN_KEY);
+    await pref.remove(USER_TOKEN_KEY);
     await DioService.resetStatic();
   }
 }

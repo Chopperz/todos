@@ -70,8 +70,8 @@ class DioService {
   static Future<void> initialize() async {
     final pref = await SharedPreferences.getInstance();
     _token = pref.getString(USER_TOKEN_KEY);
-    final refreshAccessToken = pref.getString(REFRESH_TOKEN_KEY);
-    print("DioService initialize checking between User and Refresh are equal => ${_token == refreshAccessToken}");
+    // final refreshAccessToken = pref.getString(REFRESH_TOKEN_KEY);
+    // print("DioService initialize checking between User and Refresh are equal => ${_token == refreshAccessToken}");
   }
 
   static Future<void> resetStatic() async => await initialize();

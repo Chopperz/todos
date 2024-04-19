@@ -27,7 +27,6 @@ class LoggerInterceptor extends Interceptor {
     if (err.response?.statusCode == 401 || err.response?.statusCode == 403) {
       switch (errorMessage) {
         case "Authentication failed.":
-          final refreshAccessToken = sharedPreferences.getString(REFRESH_TOKEN_KEY) ?? "";
           // if (refreshAccessToken.isNotEmpty) {
           //   print("Refresh Token =============> ${DateTime.now().toIso8601String()}");
           //   final newAccessTokenForReplace =

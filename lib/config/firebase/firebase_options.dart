@@ -50,21 +50,4 @@ class DefaultFirebaseOptions {
   }
 
   // FirebaseOptions and keys config here..
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC7pZwsSWb0FT1AVYIw1UKJ_cpq2l6FU6c',
-    appId: '1:1066097970733:android:760f2a7f130c15349c32a4',
-    messagingSenderId: '1066097970733',
-    projectId: 'ecommerce-todos-app-ca7b7',
-    storageBucket: 'ecommerce-todos-app-ca7b7.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA0O4YT8KSR3g5RJKlByr9kL7NRwovR5pA',
-    appId: '1:1066097970733:ios:6868dac7a773014d9c32a4',
-    messagingSenderId: '1066097970733',
-    projectId: 'ecommerce-todos-app-ca7b7',
-    storageBucket: 'ecommerce-todos-app-ca7b7.appspot.com',
-    iosClientId: '1066097970733-li6e723sh9v1ulv86aiu5qqcjipv4gc7.apps.googleusercontent.com',
-    iosBundleId: 'com.example.todosByBloc',
-  );
 }

@@ -201,6 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const Gap(30),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
                         onPressed: () {

@@ -58,17 +58,12 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     final userData = await AppFirebase.instance.database().child('users');
     final DataSnapshot info = await userData.child(user.uid).get();
 
-    print("User-Database: ${info.value}");
-
-    final res = await userRepository.getMe();
-
-    String message = res.data["message"] ?? "";
-
-    if (["Token", "Expired"].any(message.contains)) {
+    if (info.value == null) {
       emit(state.copyWith(authStatus: NetworkStatus.error));
     } else {
+      final Map<String, dynamic> json = (info.value! as Map).cast<String, dynamic>();
       emit(state.copyWith(
-        user: UserModel.fromJson(res.data),
+        user: UserModel.fromJson(json),
         status: NetworkStatus.success,
       ));
       emit(state.copyWith(authStatus: NetworkStatus.done));

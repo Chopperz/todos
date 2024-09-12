@@ -8,11 +8,11 @@ part of 'user_model.dart';
 
 _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
     _$UserModelImpl(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       firstName: json['firstName'] as String?,
       lastName: json['lastName'] as String?,
       maidenName: json['maidenName'] as String?,
-      age: json['age'] as int?,
+      age: (json['age'] as num?)?.toInt(),
       gender: json['gender'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,

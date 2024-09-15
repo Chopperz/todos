@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
           return const SizedBox.shrink();
         }
 
-        return _HomeScreen(key: ValueKey(state.user?.username));
+        return _HomeScreen(key: ValueKey(state.user?.firstName));
       },
     );
   }
@@ -79,7 +79,7 @@ class __HomeScreenState extends State<_HomeScreen> {
           ),
         ),
         BlocSelector<UserBloc, UserState, String>(
-          selector: (state) => state.user?.image ?? "",
+          selector: (state) => state.user?.avatarImage ?? "",
           builder: (_, imageUrl) => Visibility(
             visible: imageUrl.isNotEmpty,
             child: InkWell(

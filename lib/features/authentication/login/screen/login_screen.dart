@@ -1,8 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
+import 'package:todos_by_bloc/config/router/router.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
 import 'package:todos_by_bloc/core/providers/user_bloc/user_bloc.dart';
 import 'package:todos_by_bloc/core/services/services.dart';
@@ -82,10 +84,16 @@ class _LoginScreenState extends State<LoginScreen> {
           width: context.mediaQuery.size.width,
           height: context.mediaQuery.size.height,
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/app-bg.jpeg"),
-              fit: BoxFit.fill,
-              opacity: 0.9,
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.indigoAccent.shade100,
+                Colors.indigoAccent.shade200,
+                Colors.indigoAccent,
+                Colors.indigoAccent.shade400,
+                Colors.indigoAccent.shade700,
+              ],
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20).copyWith(
@@ -118,127 +126,158 @@ class _LoginScreenState extends State<LoginScreen> {
                 );
               }
 
-              return Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "LOGIN",
-                    style: GoogleFonts.sixtyfour(
-                      color: Colors.white,
-                      fontSize: 42,
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w700,
+              return Center(
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  // mainAxisSize: MainAxisSize.max,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "LOGIN",
+                      style: GoogleFonts.sixtyfour(
+                        color: Colors.white,
+                        fontSize: 42,
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  Divider(
-                    indent: 150,
-                    endIndent: 150,
-                    color: Colors.grey.shade100,
-                    height: 20,
-                    thickness: 1.5,
-                  ),
-                  const Gap(10),
-                  SocialsLoginWidget(),
-                  const Gap(30),
-                  SizedBox(
-                    width: 300,
-                    child: Column(
-                      children: [
-                        AppTextFormFiled(
-                          title: "Username",
-                          hintText: "Please enter your username",
-                          controller: usernameCtrl,
-                          textInputAction: TextInputAction.next,
-                          prefixIcon: Icon(
-                            Icons.person,
-                            size: 20,
-                            color: context.theme.colorScheme.secondary,
+                    Divider(
+                      indent: 150,
+                      endIndent: 150,
+                      color: Colors.grey.shade100,
+                      height: 20,
+                      thickness: 1.5,
+                    ),
+                    const Gap(10),
+                    SocialsLoginWidget(),
+                    const Gap(30),
+                    SizedBox(
+                      width: 300,
+                      child: Column(
+                        children: [
+                          AppTextFormFiled(
+                            title: "Username",
+                            hintText: "Please enter your username",
+                            controller: usernameCtrl,
+                            textInputAction: TextInputAction.next,
+                            prefixIcon: Icon(
+                              Icons.person,
+                              size: 20,
+                              color: context.theme.colorScheme.secondary,
+                            ),
                           ),
-                        ),
-                        Gap(15),
-                        AppTextFormFiled(
-                          title: "Password",
-                          hintText: "Please enter your password",
-                          controller: passwordCtrl,
-                          obscureText: _isObscureText,
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            size: 20,
-                            color: context.theme.colorScheme.secondary,
+                          Gap(15),
+                          AppTextFormFiled(
+                            title: "Password",
+                            hintText: "Please enter your password",
+                            controller: passwordCtrl,
+                            obscureText: _isObscureText,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              size: 20,
+                              color: context.theme.colorScheme.secondary,
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() => _isObscureText = !_isObscureText);
+                              },
+                              color: Colors.grey.shade500,
+                              icon: Icon(_isObscureText ? Icons.visibility : Icons.visibility_off),
+                            ),
                           ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() => _isObscureText = !_isObscureText);
-                            },
-                            color: Colors.grey.shade500,
-                            icon: Icon(_isObscureText ? Icons.visibility : Icons.visibility_off),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                padding:
-                                    MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
-                              ),
-                              child: Text(
-                                "Forgot Password?",
-                                style: GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                  padding:
+                                      WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.zero),
+                                ),
+                                child: Text(
+                                  "Forgot Password?",
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Gap(30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_disabledButton) return;
+
+                            context
+                                .read<LoginCubit>()
+                                .onLogin(username: usernameCtrl.text, password: passwordCtrl.text);
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.resolveWith((_) {
+                              if (_disabledButton) {
+                                return Colors.transparent;
+                              }
+                              return Colors.green;
+                            }),
+                            fixedSize: WidgetStatePropertyAll<Size>(
+                              Size(context.mediaQuery.size.width - 40 - 20, 45),
                             ),
-                          ],
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            "Login",
+                            style: GoogleFonts.notoSans(
+                              color: Colors.grey.shade200,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  const Gap(30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_disabledButton) return;
-
-                          context
-                              .read<LoginCubit>()
-                              .onLogin(username: usernameCtrl.text, password: passwordCtrl.text);
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith((_) {
-                            if (_disabledButton) {
-                              return Colors.transparent;
-                            }
-                            return Colors.green;
-                          }),
-                          fixedSize: MaterialStatePropertyAll<Size>(
-                            const Size.fromHeight(45),
-                          ),
-                          shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          "Login",
+                    const Gap(10),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                          text: "Don't have an account?  ",
                           style: GoogleFonts.notoSans(
                             color: Colors.grey.shade200,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                          children: [
+                            TextSpan(
+                              text: "Sign Up",
+                              style: GoogleFonts.notoSans(
+                                color: Colors.grey.shade200,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.white,
+                              ),
+                              recognizer: TapGestureRecognizer()..onTap = () {
+                                context.goNamed(AppRouter.register.routeName);
+                              }
+                            ),
+                          ]),
+                    ),
+                  ],
+                ),
               );
             },
           ),

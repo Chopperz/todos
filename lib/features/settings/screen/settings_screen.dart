@@ -71,7 +71,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               radius: 75,
                               child: ClipOval(
                                 child: AppCachedNetworkImage(
-                                  imageUrl: user?.image,
+                                  imageUrl: user?.avatarImage,
                                   width: 110,
                                   height: 110,
                                 ),
@@ -111,7 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                             ),
                             Text(
-                              "@${user?.username}",
+                              "@${user?.firstName}",
                               style: AppTheme.fonts.fontS(
                                 props: AppFontStyleProps(color: Colors.grey.shade500),
                               ),

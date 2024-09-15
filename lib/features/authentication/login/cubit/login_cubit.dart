@@ -27,7 +27,6 @@ class LoginCubit extends Cubit<LoginState> {
       if (userCredential.user == null) {
         emit(state.copyWith(status: NetworkStatus.error));
       } else {
-        await repository.userLogIn();
         emit(state.copyWith(status: NetworkStatus.success));
       }
     } on FirebaseAuthException catch (fireErr) {

@@ -10,14 +10,14 @@ class UserModel with _$UserModel {
     int? id,
     String? firstName,
     String? lastName,
-    String? maidenName,
+    String? nickName,
     int? age,
     String? gender,
     String? email,
     String? phone,
-    String? image,
-    String? username,
-    String? password,
+    String? avatarImage,
+    @Default(false) bool isAdmin,
+    String? dateOfBirth,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

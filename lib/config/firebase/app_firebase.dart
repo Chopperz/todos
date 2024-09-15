@@ -22,4 +22,16 @@ class AppFirebase {
   User? get user => FirebaseAuth.instance.currentUser;
 
   DatabaseReference database({String? path}) => FirebaseDatabase.instance.ref(path);
+
+  Future<bool> signUpWithEmailAndPassword(String email, String password) async {
+    return await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    ).then((value) {
+      return true;
+    }).catchError((error) {
+      print("FirebaseAuth-createUser Error ==> ${error.message}");
+      return false;
+    });
+  }
 }

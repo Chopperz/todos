@@ -21,12 +21,12 @@ class AppFirebase {
 
   FirebaseAuth get auth => FirebaseAuth.instance;
 
-  User? get user => FirebaseAuth.instance.currentUser;
+  User? get user => auth.currentUser;
 
   DatabaseReference database({String? path}) => FirebaseDatabase.instance.ref(path);
 
   Future<UserCredential?> signUpWithEmailAndPassword(String email, String password) async {
-    return await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    return await auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     ).then((UserCredential value) {

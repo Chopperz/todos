@@ -106,6 +106,8 @@ class AppTextFormFiled extends StatelessWidget {
     );
   }
 
+  static double height = 45;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -140,7 +142,7 @@ class AppTextFormFiled extends StatelessWidget {
           Gap(5),
         ],
         Container(
-          height: 45,
+          height: height,
           decoration: BoxDecoration(
             color: backgroundColor ?? Colors.white,
             borderRadius: BorderRadius.circular(8),

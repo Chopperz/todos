@@ -1,7 +1,7 @@
 part of '../app_theme.dart';
 
 class _AppFonts {
-  TextStyle fontS({AppFontStyleProps props = const AppFontStyleProps()}) => GoogleFonts.prompt(
+  TextStyle sizeS({AppFontStyleProps props = const AppFontStyleProps()}) => GoogleFonts.prompt(
     fontSize: 12,
     fontWeight: props.fontWeight ?? FontWeight.w300,
     letterSpacing: props.letterSpacing,
@@ -12,7 +12,7 @@ class _AppFonts {
     decorationThickness: props.decorationThickness,
   );
 
-  TextStyle fontM({AppFontStyleProps props = const AppFontStyleProps()}) => GoogleFonts.prompt(
+  TextStyle sizeM({AppFontStyleProps props = const AppFontStyleProps()}) => GoogleFonts.prompt(
     fontSize: 14,
     fontWeight: props.fontWeight ?? FontWeight.w300,
     letterSpacing: props.letterSpacing,
@@ -23,7 +23,7 @@ class _AppFonts {
     decorationThickness: props.decorationThickness,
   );
 
-  TextStyle fontL({AppFontStyleProps props = const AppFontStyleProps()}) => GoogleFonts.prompt(
+  TextStyle sizeL({AppFontStyleProps props = const AppFontStyleProps()}) => GoogleFonts.prompt(
     fontSize: 16,
     fontWeight: props.fontWeight ?? FontWeight.w300,
     letterSpacing: props.letterSpacing,
@@ -34,7 +34,7 @@ class _AppFonts {
     decorationThickness: props.decorationThickness,
   );
 
-  TextStyle fontXL({AppFontStyleProps props = const AppFontStyleProps()}) => GoogleFonts.prompt(
+  TextStyle sizeXL({AppFontStyleProps props = const AppFontStyleProps()}) => GoogleFonts.prompt(
     fontSize: 18,
     fontWeight: props.fontWeight ?? FontWeight.w300,
     letterSpacing: props.letterSpacing,

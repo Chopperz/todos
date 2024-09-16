@@ -153,7 +153,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  TextSpan pricesParser({required int price, required double discountPercent}) {
+  TextSpan pricesParser({required double price, required double discountPercent}) {
     if (discountPercent == 0) {
       return TextSpan(
         text: "$price",

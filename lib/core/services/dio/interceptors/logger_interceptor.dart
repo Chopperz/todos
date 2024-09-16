@@ -54,8 +54,16 @@ class LoggerInterceptor extends Interceptor {
   }
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final requestPath = '${options.baseUrl}${options.path}';
+    final tokenResult = await AppFirebase.instance.user?.getIdTokenResult();
+    if (tokenResult?.expirationTime != null) {
+      DateTime now = DateTime.now();
+      final expire = DateTime(now.year, now.month, now.day, now.hour + 1);
+      print("${expire.difference(now).inMinutes}");
+      print("${tokenResult!.expirationTime!}");
+    }
+
     logger.i('${options.method} request => $requestPath');
     return super.onRequest(options, handler);
   }

@@ -10,7 +10,7 @@ class ProductModel with _$ProductModel {
     @Default(0) int id,
     String? title,
     String? description,
-    @Default(0) int price,
+    @Default(0) double price,
     @Default(0) double discountPercentage,
     @Default(0) double rating,
     int? stock,

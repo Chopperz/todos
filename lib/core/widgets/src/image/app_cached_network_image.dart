@@ -69,7 +69,7 @@ class AppCachedNetworkImage extends StatefulWidget {
   final ProgressIndicatorBuilder? progressIndicatorBuilder;
 
   /// Widget displayed while the target [imageUrl] failed loading.
-  final Widget? errorWidget;
+  final Widget Function(BuildContext, String, Object)? errorWidget;
 
   /// The duration of the fade-in animation for the [placeholder].
   final Duration? placeholderFadeInDuration;
@@ -210,11 +210,15 @@ class _AppCachedNetworkImageState extends State<AppCachedNetworkImage> {
 
   @override
   Widget build(BuildContext context) {
+    String _imageUrl = widget.imageUrl.isNotEmptyOrNull
+        ? widget.imageUrl!
+        : "https://www.anelto.com/wp-content/uploads/2021/08/placeholder-image.png";
+
     return GestureDetector(
       onTap: widget.onTap,
       child: CachedNetworkImage(
-        cacheKey: "Cache-${widget.imageUrl}-${_networkNotifier.value.toString()}",
-        imageUrl: widget.imageUrl!,
+        cacheKey: "Cache-${_imageUrl}-${_networkNotifier.value.toString()}",
+        imageUrl: _imageUrl,
         fit: widget.fit,
         fadeOutDuration: widget.fadeOutDuration,
         fadeOutCurve: widget.fadeOutCurve,
@@ -232,38 +236,38 @@ class _AppCachedNetworkImageState extends State<AppCachedNetworkImage> {
         memCacheWidth: widget.memCacheWidth,
         memCacheHeight: widget.memCacheHeight,
         progressIndicatorBuilder: widget.progressIndicatorBuilder ??
-                (context, url, downloadProgress) {
+            (context, url, downloadProgress) {
               return Center(
                 child: CircularProgressIndicator.adaptive(value: downloadProgress.progress),
               );
             },
         imageBuilder: widget.imageBuilder ??
-                (context, imageProvider) => ImageBuilder(provider: imageProvider),
-        errorWidget: (context, url, error) {
-          if (_networkNotifier.value > valueNotifier + 1) {
-            return widget.errorWidget ??
-                CacheImage(
-                  url: widget.imageUrl!,
+            (context, imageProvider) => ImageBuilder(provider: imageProvider),
+        errorWidget: widget.errorWidget ??
+            (context, url, error) {
+              if (_networkNotifier.value > valueNotifier + 2) {
+                return CacheImage(
+                  url: _imageUrl,
                   imageFit: BoxFit.contain,
                   errorHeight: widget.errorHeight,
                 );
-          }
+              }
 
-          if (_networkNotifier.value == valueNotifier) {
-            return FutureBuilder(
-              future: autoIncrement(),
-              builder: (_, __) => const ShimmerImage(),
-            );
-          }
+              if (_networkNotifier.value == valueNotifier) {
+                return FutureBuilder(
+                  future: autoIncrement(),
+                  builder: (_, __) => const ShimmerImage(),
+                );
+              }
 
-          return IconButton(
-            onPressed: () {
-              print("cache_key: ${_networkNotifier.value}");
-              increment.call();
+              return IconButton(
+                onPressed: () {
+                  print("cache_key: ${_networkNotifier.value}");
+                  increment.call();
+                },
+                icon: Icon(Icons.refresh, color: context.theme.primaryColor),
+              );
             },
-            icon: Icon(Icons.refresh, color: context.theme.primaryColor),
-          );
-        },
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +9,6 @@ import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todos_by_bloc/core/constants/home_constants.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
-import 'package:todos_by_bloc/core/extensions/src/context.dart';
 import 'package:todos_by_bloc/core/widgets/widgets.dart';
 import 'package:todos_by_bloc/features/home/bloc/home_bloc.dart';
 

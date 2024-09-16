@@ -71,9 +71,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               radius: 75,
                               child: ClipOval(
                                 child: AppCachedNetworkImage(
-                                  imageUrl: user?.image,
+                                  imageUrl: user?.avatarImage,
                                   width: 110,
                                   height: 110,
+                                  errorWidget: (_, __, ___) => const Icon(Icons.person_2_rounded),
                                 ),
                               ),
                             ),
@@ -106,13 +107,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           children: [
                             Text(
                               "${user?.firstName} ${user?.lastName}",
-                              style: AppTheme.fonts.fontL(
+                              style: AppTheme.fonts.sizeL(
                                 props: AppFontStyleProps(fontWeight: FontWeight.w500),
                               ),
                             ),
                             Text(
-                              "@${user?.username}",
-                              style: AppTheme.fonts.fontS(
+                              "@${user?.firstName}",
+                              style: AppTheme.fonts.sizeS(
                                 props: AppFontStyleProps(color: Colors.grey.shade500),
                               ),
                             ),
@@ -148,7 +149,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       itemCount: menus.length,
                       itemBuilder: (_, index) {
-                        final fontStyle = AppTheme.fonts.fontL(
+                        final fontStyle = AppTheme.fonts.sizeL(
                           props: AppFontStyleProps(
                             color: context.isDarkMode ? Colors.grey.shade200 : Colors.grey.shade800,
                             fontWeight: FontWeight.w500,

@@ -19,7 +19,7 @@ enum AppRouter {
   settings,
 }
 
-extension _AppRouterExtension on AppRouter {
+extension AppRouterExtension on AppRouter {
   String get routeName {
     switch(this) {
       case AppRouter.home:

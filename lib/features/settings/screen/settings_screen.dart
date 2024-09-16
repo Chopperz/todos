@@ -74,6 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   imageUrl: user?.avatarImage,
                                   width: 110,
                                   height: 110,
+                                  errorWidget: (_, __, ___) => const Icon(Icons.person_2_rounded),
                                 ),
                               ),
                             ),

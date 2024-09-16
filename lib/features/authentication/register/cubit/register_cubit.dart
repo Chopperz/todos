@@ -48,13 +48,18 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   Future<void> onSubmitRegister() async {
     emit(state.copyWith(status: NetworkStatus.processing));
-    bool isUserAvailable =
+    UserCredential? credential =
         await AppFirebase.instance.signUpWithEmailAndPassword(state.email, state.password);
-    if (isUserAvailable) {
+    if (credential != null) {
       DatabaseReference ref = AppFirebase.instance.database(path: "users");
+      String userId = credential.user?.uid ?? Uuid().v1();
       await ref.update({
-        Uuid().v1(): state.user.toJson(),
+        userId : state.user.toJson(),
       });
+
+      if (credential.credential != null) {
+        await AppFirebase.instance.auth.signInWithCredential(credential.credential!);
+      }
 
       emit(state.copyWith(status: NetworkStatus.success));
     } else {

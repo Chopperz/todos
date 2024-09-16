@@ -71,8 +71,8 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
   }
 
   Future<void> removeUserOnState(UserLogoutEvent event, Emitter<UserState> emit) async {
-    await authRepository.userLogout();
     await clear();
+    await authRepository.userLogout();
     navigatorKey.currentState?.popUntil((route) => route.isFirst);
     emit(UserState.logout());
   }

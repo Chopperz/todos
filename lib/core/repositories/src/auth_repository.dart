@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todos_by_bloc/config/firebase/app_firebase.dart';
 import 'package:todos_by_bloc/core/constants/app_constants.dart';
 import 'package:todos_by_bloc/core/extensions/extensions.dart';
 import 'package:todos_by_bloc/core/services/services.dart';
@@ -56,5 +57,6 @@ final class AuthRepository {
     final pref = await SharedPreferences.getInstance();
     await pref.remove(USER_TOKEN_KEY);
     await DioService.resetStatic();
+    await AppFirebase.instance.logout();
   }
 }

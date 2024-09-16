@@ -19,19 +19,22 @@ class AppFirebase {
     // await FirebaseAuth.instance..useAuthEmulator("localhost", 9099);
   }
 
+  FirebaseAuth get auth => FirebaseAuth.instance;
+
   User? get user => FirebaseAuth.instance.currentUser;
 
   DatabaseReference database({String? path}) => FirebaseDatabase.instance.ref(path);
 
-  Future<bool> signUpWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential?> signUpWithEmailAndPassword(String email, String password) async {
     return await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email,
       password: password,
-    ).then((value) {
-      return true;
+    ).then((UserCredential value) {
+      return value;
     }).catchError((error) {
-      print("FirebaseAuth-createUser Error ==> ${error.message}");
-      return false;
+      throw "FirebaseAuth-createUser Error ==> ${error.message}";
     });
   }
+
+  Future<void> logout() async => await auth.signOut();
 }

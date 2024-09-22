@@ -38,10 +38,11 @@ class MyAppConfigs extends StatefulWidget {
     _MyAppConfigsState? state = context.findAncestorStateOfType<_MyAppConfigsState>();
     state?.setLocale(newLocale);
   }
+
+  static EnvironmentConfig environment = EnvironmentConfig.init;
 }
 
 class _MyAppConfigsState extends State<MyAppConfigs> {
-  EnvironmentConfig environment = EnvironmentConfig.init;
   Locale? _locale;
 
   setLocale(Locale locale) {
@@ -53,7 +54,7 @@ class _MyAppConfigsState extends State<MyAppConfigs> {
   @override
   void initState() {
     super.initState();
-    environment = EnvironmentConfig.values.byName(FlavorConfig.instance.variables["env"]);
+    MyAppConfigs.environment = EnvironmentConfig.values.byName(FlavorConfig.instance.variables["env"]);
   }
 
   @override
@@ -93,7 +94,7 @@ class _MyAppConfigsState extends State<MyAppConfigs> {
               GlobalWidgetsLocalizations.delegate,
             ],
             builder: (BuildContext context, Widget? child) {
-              if (!environment.isProd) {
+              if (!MyAppConfigs.environment.isProd) {
                 return Banner(
                   message: FlavorConfig.instance.name ?? "DEV",
                   location: FlavorConfig.instance.location,

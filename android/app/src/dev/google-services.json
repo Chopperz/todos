@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "725605578524",
+    "project_id": "ecommerce-todos-app-dev",
+    "storage_bucket": "ecommerce-todos-app-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725605578524:android:358803672b5ea06ce52cd9",
+        "android_client_info": {
+          "package_name": "com.example.todos_by_bloc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKpWsrGvwkK-Ag6ZqVqpUDHLiG2QIdgmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725605578524:android:1b95b2aaf44bb859e52cd9",
+        "android_client_info": {
+          "package_name": "com.example.todos_by_bloc.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKpWsrGvwkK-Ag6ZqVqpUDHLiG2QIdgmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

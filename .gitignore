@@ -46,8 +46,10 @@ app.*.map.json
 *.freezed.dart
 *.g.dart
 
-lib/config/firebase/firebase_options.dart
+lib/config/firebase/src/firebase_options_dev.dart
+lib/config/firebase/src/firebase_options_prod.dart
 
 # FVM Version Cache
 .fvm/
 .fvmrc
+firebase.json

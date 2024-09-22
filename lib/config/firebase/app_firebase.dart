@@ -15,13 +15,13 @@ class AppFirebase {
 
   Future<void> configs({String? env}) async {
     String _env = env ??= "development";
-    if (_env == "development") {
+    if (_env == "production") {
       await Firebase.initializeApp(
-        options: DefaultFirebaseDevOptions.currentPlatform,
+        options: DefaultFirebaseProdOptions.currentPlatform,
       );
     } else {
       await Firebase.initializeApp(
-        options: DefaultFirebaseProdOptions.currentPlatform,
+        options: DefaultFirebaseDevOptions.currentPlatform,
       );
     }
     // await FirebaseAuth.instance..useAuthEmulator("localhost", 9099);

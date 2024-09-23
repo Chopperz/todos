@@ -6,12 +6,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todos_by_bloc/config/l10n/l10n.dart';
 import 'package:todos_by_bloc/core/providers/providers.dart';
+import 'package:todos_by_bloc/core/services/services.dart';
 import 'package:todos_by_bloc/theme/app_theme.dart';
 
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todos_by_bloc/core/services/dio/dio_service.dart';
 
 import '../../core/constants/app_constants.dart';
 import '../router/router.dart';
@@ -25,6 +25,7 @@ void appInitialization() async {
   sharedPreferences = await SharedPreferences.getInstance();
   await dotenv.load(fileName: ".env");
   await DioService.initialize();
+  await DynamicLinksService.instance.initDeepLinks();
   runApp(const MyAppConfigs());
 }
 

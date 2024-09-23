@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import './firebase_options.dart';
+import 'src/firebase_options_dev.dart';
+import 'src/firebase_options_prod.dart';
 
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:firebase_database/firebase_database.dart';
@@ -12,10 +13,17 @@ class AppFirebase {
 
   AppFirebase._();
 
-  Future<void> configs() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  Future<void> configs({String? env}) async {
+    String _env = env ??= "development";
+    if (_env == "production") {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseProdOptions.currentPlatform,
+      );
+    } else {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseDevOptions.currentPlatform,
+      );
+    }
     // await FirebaseAuth.instance..useAuthEmulator("localhost", 9099);
   }
 

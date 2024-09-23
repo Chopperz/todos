@@ -7,7 +7,7 @@ import 'config/firebase/app_firebase.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  await AppFirebase.instance.configs();
+  await AppFirebase.instance.configs(env: "development");
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   FlavorConfig(
       name: "DEV",
